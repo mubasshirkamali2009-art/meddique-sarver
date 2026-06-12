@@ -3,7 +3,7 @@ dns.setServers(["8.8.8.8", "8.8.4.4"]);
 const dontenv= require('dotenv')
 const express =require('express')
 const cors =require("cors")
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 dontenv.config()
 
 const uri = process.env.MONGODB_URI;
@@ -41,7 +41,23 @@ const db = client.db("Meddique")
 
 const tutorCollection= db.collection("tutors")
 
-app.post('/tutors' ,async (req ,res ) => {
+app.get('/teachers'  , async (req , res) => {
+  const result = await tutorCollection.find().toArray()
+  res.json(result)
+})
+
+
+
+app.get("/teachers/:id" , async (req , res) =>{
+  const {id} = req.params
+  const result= await tutorCollection.findOne({_id: new ObjectId(id)})
+  res.json(result)
+} )
+
+
+
+
+app.post('/teachers' ,async (req ,res ) => {
   const tutorsData = req.body
 
   console.log(tutorsData)
@@ -50,7 +66,11 @@ app.post('/tutors' ,async (req ,res ) => {
   res.json(result)
 })
 
-
+app.delete("/teachers/:id", async (req, res) => {
+  const { id } = req.params;
+  const result = await tutorCollection.deleteOne({ _id: new ObjectId(id) });
+  res.json(result);
+});
 
 
 
@@ -89,6 +109,3 @@ app.listen(PORT , ()=>{
 
 
 
-
-//  mediqueue
-// uEAyPmAlB5bacGWd
