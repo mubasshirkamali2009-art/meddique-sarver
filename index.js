@@ -37,7 +37,7 @@ async function run() {
 
 
 
-const db = client.db("Meddique")
+const db = client.db("meddique")
 
 const tutorCollection= db.collection("tutors")
 
