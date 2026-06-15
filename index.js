@@ -41,6 +41,9 @@ const db = client.db("meddique")
 
 const tutorCollection= db.collection("tutors")
 
+const  bookingCollection = db.collection("bookings")
+
+
 app.get('/teachers'  , async (req , res) => {
   const result = await tutorCollection.find().toArray()
   res.json(result)
@@ -72,7 +75,12 @@ app.delete("/teachers/:id", async (req, res) => {
   res.json(result);
 });
 
+app.post("/booking" , async (req ,res) => {
+  const bookingData = req.body;
+  const result =await bookingCollection.insertOne(bookingData)
 
+  res.json(result);
+})
 
 
 
